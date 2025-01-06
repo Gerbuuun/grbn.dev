@@ -42,3 +42,14 @@ const items = [
     </UFooter>
   </UApp>
 </template>
+
+<style>
+@import "tailwindcss";
+@import "@nuxt/ui-pro";
+
+@source "../content";
+
+@theme {
+  --font-sans: 'Kanit', sans-serif;
+}
+</style>

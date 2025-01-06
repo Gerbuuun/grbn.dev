@@ -6,7 +6,6 @@ export default defineNuxtConfig({
     '@nuxthub/core',
   ],
   devtools: { enabled: true },
-  css: ['~/assets/main.css'],
   content: {
     database: {
       type: 'd1',
