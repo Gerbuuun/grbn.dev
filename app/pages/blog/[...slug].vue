@@ -24,11 +24,15 @@ const date = computed(() => page.value ? new Date(page.value.date) : new Date())
     <UPageHeader :title="page.title" :description="page.description" :ui="{ headline: 'flex flex-col gap-y-8 items-start' }">
       <template #headline>
         <UBreadcrumb :items="breadcrumbs" :ui="{ root: 'w-full' }" />
-        <time :datetime="date.toISOString()">{{ date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) }}</time>
+        <span class="space-x-2 text-sm text-gray-500 dark:text-gray-400">
+          <time :datetime="date.toISOString()" class="text-[var(--ui-primary)]">{{ date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) }}</time>
+          <span>·</span>
+          <span class="italic">{{ page.readingTime }} minute read</span>
+        </span>
       </template>
     </UPageHeader>
 
-    <UPageBody>
+    <UPageBody class="text-justify">
       <ContentRenderer v-if="page.body" :value="page" />
 
       <USeparator />

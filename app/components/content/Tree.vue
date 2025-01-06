@@ -16,7 +16,7 @@ defineProps<{
 
 <template>
   <div class="flex flex-col lg:flex-row gap-x-8">
-    <div v-if="$slots.left" class="grow py-3">
+    <div v-if="$slots.left" class="grow">
       <slot name="left" />
     </div>
 
@@ -51,7 +51,7 @@ defineProps<{
       </TreeItem>
     </TreeRoot>
 
-    <div v-if="$slots.right" class="grow py-3">
+    <div v-if="$slots.right" class="grow">
       <slot name="right" />
     </div>
   </div>

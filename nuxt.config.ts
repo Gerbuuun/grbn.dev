@@ -1,8 +1,8 @@
 export default defineNuxtConfig({
   modules: [
+    '@nuxt/ui-pro',
     '@nuxt/content',
     '@nuxt/eslint',
-    '@nuxt/ui-pro',
     '@nuxthub/core',
   ],
   devtools: { enabled: true },
@@ -14,6 +14,11 @@ export default defineNuxtConfig({
   },
   future: { compatibilityVersion: 4 },
   compatibilityDate: '2024-12-30',
+  nitro: {
+    routeRules: {
+      '/blog/**': { prerender: true },
+    },
+  },
   hub: {
     database: true,
   },

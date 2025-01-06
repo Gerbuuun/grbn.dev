@@ -20,6 +20,7 @@
     "lint": "eslint . --flag unstable_ts_config"
   },
   "devDependencies": {
+    "@iconify-json/lucide": "^1.2.21",
     "@nuxt/content": "3.0.0-alpha.8",
     "@nuxt/eslint": "^0.7.4",
     "@nuxt/ui-pro": "https://pkg.pr.new/@nuxt/ui-pro@364cc97",
