@@ -32,7 +32,7 @@ const date = computed(() => page.value ? new Date(page.value.date) : new Date())
       </template>
     </UPageHeader>
 
-    <UPageBody class="text-justify">
+    <UPageBody>
       <ContentRenderer v-if="page.body" :value="page" />
 
       <USeparator />

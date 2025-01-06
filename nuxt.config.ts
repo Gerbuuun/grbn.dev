@@ -16,7 +16,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-12-30',
   nitro: {
     routeRules: {
-      '/blog/**': { prerender: true },
+      '/blog/**': { prerender: true, ssr: false },
     },
   },
   hub: {

@@ -94,7 +94,7 @@ This is exactly how I implemented it. The client created an organization, added 
 
 ## Implementing subdomains
 
-I've read about subdomain based routing before and thought it would be a good solution for this problem. If you compare a domain like `{event_I_want_to_buy_tickets_for}.my-company.com` to the current implementation `my-company.com/shop/{shop_id}`, there is immediate feedback that the site you are visiting is the one you want to be on. Instead of a random string of characters in the URL, you now have a recognizable name.
+I've read about subdomain based routing before and thought it would be a good solution for this problem. If you compare a domain like `{some_event}.my-company.com` to the current implementation `my-company.com/shop/{shop_id}`, there is immediate feedback that the site you are visiting is the one you want to be on. Instead of a random string of characters in the URL, you now have a recognizable name.
 
 ### Subdomains in Nuxt
 
@@ -178,11 +178,11 @@ With the custom routing in place, we can now split the application into each par
 - `pages/pricing.vue` will be accessible at `my-company.com/pricing`
 - etc.
 
-Now when a user visits `some-cool-event.my-company.com`, all pages in `pages/tenant` will be accessible. Based on the subdomain, we can fetch all the cool tickets that are available for purchase from the database and display them on the page.
+Now when a user visits `some-event.my-company.com`, all pages in `pages/tenant` will be accessible. Based on the subdomain, we can fetch all the cool tickets that are available for purchase from the database and display them on the page.
 ::
 
 ### Fetching the correct data
-When visiting `some-cool-event.my-company.com`, we don't want to fetch all the tickets from the database. We want to fetch the tickets for that specific event. A very simple way to do this is to create a composable that just stores the current tenant ID, or in my case the event ID.
+When visiting `some-event.my-company.com`, we don't want to fetch all the tickets from the database. We want to fetch the tickets for that specific event. A very simple way to do this is to create a composable that just stores the current tenant ID, or in my case the event ID.
 
 ```ts [app/composables/useEvent.ts]
 export function useEvent() {
