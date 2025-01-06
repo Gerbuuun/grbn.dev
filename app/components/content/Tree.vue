@@ -22,7 +22,7 @@ defineProps<{
 
     <TreeRoot
       v-slot="{ flattenItems }"
-      class="list-none select-none w-56 rounded-lg p-2 text-sm font-medium border border-neutral-200 dark:border-neutral-800 min-w-1/4 mx-auto"
+      class="list-none select-none w-full lg:w-56 rounded-lg p-2 text-sm font-medium border border-neutral-200 dark:border-neutral-800 min-w-1/4 mx-auto"
       :items="items"
       :get-key="(item) => item.title"
       :default-expanded="defaultExpanded"
