@@ -1,19 +1,29 @@
 export default defineNuxtConfig({
-  compatibilityDate: '2024-07-30',
-  future: { compatibilityVersion: 4 },
-  extends: ['@nuxt/ui-pro'],
   modules: [
+    '@nuxt/content',
     '@nuxt/eslint',
-    '@nuxt/ui',
+    '@nuxt/ui-pro',
     '@nuxthub/core',
   ],
-  hub: {},
+  devtools: { enabled: true },
+  css: ['~/assets/main.css'],
+  content: {
+    database: {
+      type: 'd1',
+      binding: 'DB',
+    },
+  },
+  future: { compatibilityVersion: 4 },
+  compatibilityDate: '2024-12-30',
+  hub: {
+    database: true,
+  },
   eslint: {
     config: {
       stylistic: {
-        quotes: 'single'
-      }
-    }
+        quotes: 'single',
+        semi: true,
+      },
+    },
   },
-  devtools: { enabled: true }
 });
