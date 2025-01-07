@@ -17,6 +17,15 @@ const breadcrumbs = computed(() => [
 ]);
 
 const date = computed(() => page.value ? new Date(page.value.date) : new Date());
+
+useSeoMeta({
+  title: page.value?.title,
+  description: page.value?.description,
+  ogTitle: page.value?.title,
+  ogDescription: page.value?.description,
+  articleTag: page.value?.tags,
+  articlePublishedTime: new Date(page.value?.date).toISOString(),
+});
 </script>
 
 <template>
