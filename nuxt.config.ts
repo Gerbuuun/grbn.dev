@@ -16,11 +16,19 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-12-30',
   nitro: {
     routeRules: {
-      '/blog/**': { prerender: true, ssr: false },
+      '/blog/**': {
+        prerender: true,
+        ssr: false,
+      },
+      '/api/ungh/**': {
+        proxy: 'https://ungh.cc',
+        cache: { maxAge: 60 * 60 * 24 * 30 },
+      },
     },
   },
   hub: {
     database: true,
+    cache: true,
   },
   eslint: {
     config: {
