@@ -34,6 +34,9 @@ references:
   - label: Vue Router Options
     to: https://router.vuejs.org/api/interfaces/RouterOptions.html
     icon: i-simple-icons-vuedotjs
+  - label: Example project
+    to: https://github.com/gerbuuun/nuxt-cloudflare-multi-tenancy
+    icon: i-simple-icons-github
 ---
 
 _NOTE: for now, any mention of the actual domain and project name is redacted. I'll update this post once I've finished the migration._
@@ -192,7 +195,7 @@ export function useEvent() {
 
 In the router options, we can now fetch the event ID from the subdomain and store it for easy access throughout the application.
 
-```ts [app/router.options.ts]{13,14,17}
+```ts [app/router.options.ts]{11,14,17}
 import type { RouterOptions } from '@nuxt/schema';
 import type { RouteRecordRaw } from 'vue-router';
 
@@ -203,13 +206,13 @@ const isTenantRoute = (route: RouteRecordRaw) => route.path.match(routeRegex);
 export default <RouterOptions>{
   routes: (routes) => {
     const { hostname } = useRequestURL();
+    const eventID = useEvent();
 
     const subdomain = hostname.replace(`.${DOMAIN}`, '');
-    const eventID = await $fetch('/api/tenant', { query: { subdomain } });
-    useEvent().value = eventID;
+    eventID.value = await $fetch('/api/tenant', { query: { subdomain } });
 
     return routes
-      .filter(route => eventID ? isTenantRoute(route) : !isTenantRoute(route))
+      .filter(route => eventID.value ? isTenantRoute(route) : !isTenantRoute(route))
       .map(route => ({
         ...route,
         path: route.path.replace(routeRegex, '/'),
@@ -299,10 +302,10 @@ This will not work. The subdomain will trigger the worker and not route to the V
 
 ## Conclusion
 
-Adding subdomains to your application is a nice way to make your application feel more professional and trustworthy. It gives a sense of separation between different users. The support for subdomains in Cloudflare is certainly not perfect. And navigating the Cloudflare documentation and dashboards is not intuitive. The documentation is minimal and I only was able to solve the issues by going back and forth between AI and the documentation. I hope this blog post will save you some of the time and frustration I went through.
+Adding subdomains to your application is a nice way to make your application feel more professional and trustworthy. It gives a sense of separation between different users. The support for subdomains in Cloudflare is certainly not perfect. And navigating the Cloudflare documentation and dashboards is not intuitive. The documentation is minimal and I only was able to solve the issues by going back and forth between AI and the documentation. I hope this blog post will save you some of the time and frustration I went through. An example project is available on [Github](https://github.com/gerbuuun/nuxt-cloudflare-multi-tenancy).
 
 ### What's next?
 
 As I mentioned briefly earlier, during the migration I stumbled upon Cloudflare's 'Workers for SaaS' offering. This allows your clients to use their own domains to point to your worker project. Instead of using `{my_event}.my-company.com`, they can use for example `{my_event}.client-1.com` or even just `client-1.com`. This is an even better solution than subdomains. After validating the subdomain routing, I will be looking into this and see if I can implement it within the free tier. And if it works, I will write a blog post about it as well.
 
-This is my very first blog post about my development journey. Lots of people I follow in this space said to just publish your work and share it with the world. Well, here it is. I hope you enjoyed reading it and learned something from it.
+_This is my very first blog post about my development journey. Lots of people I follow in this space said to just publish your work and share it with the world. Well, here it is. I hope you enjoyed reading it and learned something from it._

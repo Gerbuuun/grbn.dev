@@ -1,5 +1,11 @@
 import { defineCollection, defineContentConfig, z } from '@nuxt/content';
 
+const linkSchema = z.object({
+  label: z.string(),
+  icon: z.string(),
+  to: z.string(),
+});
+
 export default defineContentConfig({
   collections: {
     blog: defineCollection({
@@ -9,14 +15,9 @@ export default defineContentConfig({
         date: z.date(),
         tags: z.array(z.string()),
         readingTime: z.number(),
-        references: z.array(z.object({
-          label: z.string(),
-          to: z.string(),
-        })),
-        other: z.array(z.object({
-          label: z.string(),
-          to: z.string(),
-        })),
+        links: z.array(linkSchema),
+        references: z.array(linkSchema),
+        other: z.array(linkSchema),
       }),
     }),
   },

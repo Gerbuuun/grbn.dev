@@ -30,7 +30,7 @@ useSeoMeta({
 
 <template>
   <UPage v-if="page">
-    <UPageHeader :title="page.title" :description="page.description" :ui="{ headline: 'flex flex-col gap-y-8 items-start' }">
+    <UPageHeader :title="page.title" :description="page.description" :links="page.links" :ui="{ headline: 'flex flex-col gap-y-8 items-start' }">
       <template #headline>
         <UBreadcrumb :items="breadcrumbs" :ui="{ root: 'w-full' }" />
         <span class="space-x-2 text-sm text-gray-500 dark:text-gray-400">
