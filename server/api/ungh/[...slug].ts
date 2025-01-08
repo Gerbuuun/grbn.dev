@@ -16,5 +16,5 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  return ungh.fetch(pathname);
+  return ungh.fetch(pathname.replace(/^\/api\/ungh/, ''));
 });
