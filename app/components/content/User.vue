@@ -11,7 +11,7 @@ const props = defineProps<{
   username: string;
 }>();
 
-const { data } = useLazyFetch<{ user: GithubUser }>(`/api/ungh/users/${props.username}`);
+const { data } = useLazyFetch<{ user: GithubUser }>(`/api/gh/users/${props.username}`);
 const user = computed(() => data?.value?.user);
 </script>
 
