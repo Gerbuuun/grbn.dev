@@ -6,7 +6,7 @@ function getUngh() {
 }
 
 export default defineEventHandler(async (event) => {
-  const { pathname } = getRequestURL(event);
+  const url = getRequestURL(event);
   const ungh = getUngh();
 
   if (!ungh) {
@@ -16,5 +16,6 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  return ungh.fetch(pathname.replace(/^\/api\/ungh/, ''));
+  url.pathname = url.pathname.replace(/^\/api\/ungh/, '');
+  return ungh.fetch(url.toString());
 });
