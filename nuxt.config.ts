@@ -20,10 +20,6 @@ export default defineNuxtConfig({
         prerender: true,
         ssr: false,
       },
-      '/api/ungh/**': {
-        proxy: 'https://ungh.cc/**',
-        cache: { maxAge: 60 * 60 * 24 * 30 },
-      },
     },
   },
   hub: {
