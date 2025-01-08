@@ -12,6 +12,9 @@ export default defineNuxtConfig({
       binding: 'DB',
     },
   },
+  runtimeConfig: {
+    githubToken: process.env.GITHUB_TOKEN,
+  },
   future: { compatibilityVersion: 4 },
   compatibilityDate: '2024-12-30',
   nitro: {
