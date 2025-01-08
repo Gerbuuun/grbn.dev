@@ -18,12 +18,13 @@ export default defineEventHandler(async (event) => {
   }
 
   return {
-    id: user.id,
-    username: user.username,
-    name: user.name,
-    twitter: user.twitter,
-    avatar: user.avatar,
-
+    user: {
+      id: user.id,
+      username: user.username,
+      name: user.name,
+      twitter: user.twitter,
+      avatar: user.avatar,
+    },
   };
 });
 
