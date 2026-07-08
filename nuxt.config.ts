@@ -1,15 +1,10 @@
 export default defineNuxtConfig({
-  modules: [
-    '@nuxt/ui-pro',
-    '@nuxt/content',
-    '@nuxt/eslint',
-    '@nuxthub/core',
-  ],
+  modules: ['@nuxt/ui', '@nuxt/content'],
   devtools: { enabled: true },
   content: {
     database: {
       type: 'd1',
-      binding: 'DB',
+      bindingName: 'DB',
     },
   },
   runtimeConfig: {
@@ -18,22 +13,14 @@ export default defineNuxtConfig({
   future: { compatibilityVersion: 4 },
   compatibilityDate: '2024-12-30',
   nitro: {
+    preset: 'cloudflare-module',
+    cloudflare: {
+      nodeCompat: true,
+    },
     routeRules: {
       '/blog/**': {
         prerender: true,
         ssr: false,
-      },
-    },
-  },
-  hub: {
-    database: true,
-    cache: true,
-  },
-  eslint: {
-    config: {
-      stylistic: {
-        quotes: 'single',
-        semi: true,
       },
     },
   },

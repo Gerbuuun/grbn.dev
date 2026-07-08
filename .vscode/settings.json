@@ -1,8 +1,45 @@
 {
-  "files.associations": {
-    "*.css": "tailwindcss"
+  "js/ts.tsdk.path": "node_modules/typescript/lib",
+  "js/ts.tsdk.promptToUseWorkspaceVersion": true,
+  "js/ts.tsserver.automaticTypeAcquisition.enabled": false,
+  "js/ts.preferences.importModuleSpecifier": "relative",
+  "js/ts.tsserver.watchOptions": {
+    "excludeDirectories": ["**/node_modules", "**/dist", "**/.output", "**/.nuxt", "**/.nitro", "**/.cache", "**/.data"]
   },
-  "editor.quickSuggestions": {
-    "strings": "on"
-  }
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/**": true,
+    "**/dist/**": true,
+    "**/.output/**": true,
+    "**/.nuxt/**": true,
+    "**/.nitro/**": true,
+    "**/.cache/**": true,
+    "**/.data/**": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/.output": true,
+    "**/.nuxt": true,
+    "**/.nitro": true,
+    "**/.cache": true,
+    "**/.data": true
+  },
+  "terminal.integrated.profiles.osx": {
+    "fish": {
+      "path": "/opt/homebrew/bin/fish"
+    }
+  },
+  "terminal.integrated.defaultProfile.osx": "fish",
+  "editor.defaultFormatter": "oxc.oxc-vscode",
+  "oxc.fmt.configPath": "./vite.config.ts",
+  "editor.formatOnSave": true,
+  "editor.formatOnSaveMode": "file",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.oxc": "explicit"
+  },
+  "js/ts.experimental.useTsgo": true,
+  "js/ts.tsserver.experimental.enableProjectDiagnostics": true,
+  "typescript.native-preview.tsdk": "node_modules/@typescript/native-preview"
 }

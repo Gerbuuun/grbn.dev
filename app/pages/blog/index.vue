@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 const { data: posts } = await useAsyncData('navigation', () => {
-  return queryCollection('blog')
-    .select('title', 'description', 'date', 'tags', 'path')
-    .all();
+  return queryCollection('blog').select('title', 'description', 'date', 'tags', 'path').all();
 });
 </script>
 

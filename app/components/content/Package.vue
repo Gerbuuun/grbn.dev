@@ -19,20 +19,17 @@ const packageInfo = computed(() => data?.value);
 const githubUrl = computed(() => {
   if (!packageInfo.value?.repository?.url) return null;
   // Convert git+https://github.com/user/repo.git to https://github.com/user/repo
-  return packageInfo.value.repository.url
-    .replace('git+', '')
-    .replace('.git', '')
-    .replace('git:', 'https:');
+  return packageInfo.value.repository.url.replace('git+', '').replace('.git', '').replace('git:', 'https:');
 });
 </script>
 
 <template>
-  <span v-if="packageInfo" class="inline-block relative">
+  <span v-if="packageInfo" class="relative inline-block">
     <UPopover mode="hover" :content="{ side: 'top' }">
       <span class="text-[var(--ui-primary)]">{{ packageInfo.name }}</span>
       <template #content>
         <div class="flex flex-row gap-2 p-2">
-          <div class="flex flex-col gap-2 max-w-fit">
+          <div class="flex max-w-fit flex-col gap-2">
             <div class="flex items-center gap-2">
               <UIcon name="i-simple-icons-npm" />
               <span>{{ packageInfo.name }} — {{ packageInfo.version }}</span>

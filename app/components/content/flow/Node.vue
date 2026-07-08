@@ -21,7 +21,9 @@ const {
 </script>
 
 <template>
-  <div class="flex flex-row items-center justify-center gap-2 border border-gray-200 dark:border-gray-800 rounded-md w-44 h-10">
+  <div
+    class="flex h-10 w-44 flex-row items-center justify-center gap-2 rounded-md border border-gray-200 dark:border-gray-800"
+  >
     <Handle :position="sourcePosition" type="target" class="invisible translate-x-1/2" />
     <Handle :position="targetPosition" type="source" class="invisible -translate-x-1/2" />
     <UIcon v-if="data.icon" :name="data.icon" class="text-[var(--ui-primary)]" />

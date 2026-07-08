@@ -5,7 +5,9 @@
 .nitro
 .cache
 .wrangler
+.alchemy
 dist
+*.tsbuildinfo
 
 # Node dependencies
 node_modules

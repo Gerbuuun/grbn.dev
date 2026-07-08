@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TreeItem, TreeRoot } from 'radix-vue';
+import { TreeItem, TreeRoot } from 'reka-ui';
 
 interface TreeItem {
   title: string;
@@ -15,19 +15,19 @@ defineProps<{
 </script>
 
 <template>
-  <div class="flex flex-col lg:flex-row gap-x-8">
+  <div class="flex flex-col gap-x-8 lg:flex-row">
     <div v-if="$slots.left" class="grow">
       <slot name="left" />
     </div>
 
     <TreeRoot
       v-slot="{ flattenItems }"
-      class="list-none select-none w-full lg:w-56 rounded-lg p-2 text-sm font-medium border border-neutral-200 dark:border-neutral-800 min-w-1/4 mx-auto"
+      class="mx-auto w-full min-w-1/4 list-none rounded-lg border border-neutral-200 p-2 text-sm font-medium select-none lg:w-56 dark:border-neutral-800"
       :items="items"
       :get-key="(item) => item.title"
       :default-expanded="defaultExpanded"
     >
-      <h2 v-if="title" class="font-semibold !text-base px-2 pt-1 !mt-0 !mb-2">
+      <h2 v-if="title" class="!mt-0 !mb-2 px-2 pt-1 !text-base font-semibold">
         {{ title }}
       </h2>
       <TreeItem
@@ -36,7 +36,7 @@ defineProps<{
         :key="item._id"
         :style="{ 'padding-left': `${item.level - 0.5}rem` }"
         v-bind="item.bind"
-        class="flex items-center py-0.5 px-2 my-0.5 rounded outline-none focus:ring-neutral-400 dark:focus:ring-neutral-500 focus:ring-2 data-[selected]:bg-neutral-900 dark:data-[selected]:bg-neutral-900"
+        class="my-0.5 flex items-center rounded px-2 py-0.5 outline-none focus:ring-2 focus:ring-neutral-400 data-[selected]:bg-neutral-900 dark:focus:ring-neutral-500 dark:data-[selected]:bg-neutral-900"
       >
         <template v-if="item.hasChildren">
           <UIcon v-if="!isExpanded" name="i-lucide-folder" class="size-4" />

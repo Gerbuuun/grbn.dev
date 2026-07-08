@@ -16,7 +16,7 @@ const user = computed(() => data?.value?.user);
 </script>
 
 <template>
-  <span v-if="user" class="inline-block relative">
+  <span v-if="user" class="relative inline-block">
     <UPopover mode="hover" :content="{ side: 'top' }">
       <span class="text-[var(--ui-primary)]">{{ user.name }}</span>
       <template #content>
@@ -31,7 +31,12 @@ const user = computed(() => data?.value?.user);
             }"
           />
           <div class="flex flex-row gap-2">
-            <UButton variant="ghost" color="neutral" :to="`https://github.com/${user.username}`" icon="i-simple-icons-github" />
+            <UButton
+              variant="ghost"
+              color="neutral"
+              :to="`https://github.com/${user.username}`"
+              icon="i-simple-icons-github"
+            />
             <UButton variant="ghost" color="neutral" :to="`https://x.com/${user.twitter}`" icon="i-simple-icons-x" />
           </div>
         </div>

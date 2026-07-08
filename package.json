@@ -1,35 +1,46 @@
 {
   "name": "grbn.dev",
+  "version": "1.0.0",
   "private": false,
+  "description": "My personal website",
+  "license": "MIT",
   "author": {
     "name": "Gerben Mulder",
     "email": "gerbuuun@pm.me",
     "url": "https://grbn.dev"
   },
-  "version": "1.0.0",
-  "description": "My personal website",
-  "license": "MIT",
   "type": "module",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
-    "preview": "npx nuxthub preview",
-    "deploy": "npx nuxthub deploy",
+    "preview": "nuxt preview",
+    "plan:dev": "alchemy plan",
+    "plan:prod": "alchemy plan --stage production",
+    "deploy": "alchemy deploy --stage production",
+    "deploy:dev": "alchemy deploy",
+    "deploy:prod": "alchemy deploy --stage production",
+    "login": "alchemy login",
     "postinstall": "nuxt prepare",
-    "lint": "eslint . --flag unstable_ts_config"
+    "lint": "vp check",
+    "lint:fix": "vp check --fix",
+    "typecheck": "nuxt prepare && vue-tsc -b --noEmit"
   },
   "devDependencies": {
-    "@iconify-json/lucide": "^1.2.21",
-    "@nuxt/content": "3.0.0-alpha.8",
-    "@nuxt/eslint": "^0.7.4",
-    "@nuxt/ui-pro": "https://pkg.pr.new/@nuxt/ui-pro@364cc97",
-    "@nuxthub/core": "^0.8.10",
-    "@vue-flow/core": "^1.41.7",
-    "eslint": "^9.17.0",
-    "nuxt": "^3.15.1",
-    "vue-tsc": "^2.2.0",
-    "wrangler": "^3.99.0"
+    "@effect/platform-node": "4.0.0-beta.93",
+    "@iconify-json/lucide": "^1.2.116",
+    "@nuxt/content": "3.15.0",
+    "@nuxt/ui": "4.9.0",
+    "@types/node": "^26.1.1",
+    "@vue-flow/core": "^1.48.2",
+    "alchemy": "2.0.0-beta.60",
+    "better-sqlite3": "^12.5.0",
+    "effect": "4.0.0-beta.93",
+    "nuxt": "4.4.8",
+    "reka-ui": "^2.9.10",
+    "typescript": "^6.0.3",
+    "vite-plus": "^0.2.2",
+    "vue-tsc": "^3.3.7"
   },
-  "packageManager": "pnpm@9.15.2"
+  "packageManager": "pnpm@11.10.0+sha512.0b7f8b98060031904c017e3a41eb187a16d40eeb829b95c4f8cb03681761fc4ab53dd219115b9b447f4dce1a05a214764461e7d3703392a9f32f9511ce8c86c8"
 }

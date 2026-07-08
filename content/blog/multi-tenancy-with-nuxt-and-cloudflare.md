@@ -123,13 +123,13 @@ export default <RouterOptions>{
     const subdomain = hostname.replace(`.${DOMAIN}`, '');
 
     return routes
-      .filter(route => subdomain ? isTenantRoute(route) : !isTenantRoute(route))
-      .map(route => ({
+      .filter((route) => (subdomain ? isTenantRoute(route) : !isTenantRoute(route)))
+      .map((route) => ({
         ...route,
         path: route.path.replace(routeRegex, '/'),
       }));
   },
-}
+};
 ```
 
 _In this example, we get the subdomain by removing the domain from the hostname. Then we filter which routes should be accessible based on if there is a subdomain. So, all pages in the `pages/tenant` folder will be accessible from `*.my-company.com`, and all other pages will be accessible from `my-company.com`. Lastly, we remove the folder from the path so that the pages in the `pages/tenant` folder are accessible from `*.my-company.com/some-page` instead of `*.my-company.com/tenant/some-page`._
@@ -185,6 +185,7 @@ Now when a user visits `some-event.my-company.com`, all pages in `pages/tenant` 
 ::
 
 ### Fetching the correct data
+
 When visiting `some-event.my-company.com`, we don't want to fetch all the tickets from the database. We want to fetch the tickets for that specific event. A very simple way to do this is to create a composable that just stores the current tenant ID, or in my case the event ID.
 
 ```ts [app/composables/useEvent.ts]
@@ -212,13 +213,13 @@ export default <RouterOptions>{
     eventID.value = await $fetch('/api/tenant', { query: { subdomain } });
 
     return routes
-      .filter(route => eventID.value ? isTenantRoute(route) : !isTenantRoute(route))
-      .map(route => ({
+      .filter((route) => (eventID.value ? isTenantRoute(route) : !isTenantRoute(route)))
+      .map((route) => ({
         ...route,
         path: route.path.replace(routeRegex, '/'),
       }));
   },
-}
+};
 ```
 
 _The highlighted lines show the changes. Before filtering the routes, we fetch the event ID based on the subdomain from a database, KV, or whatever you prefer. If the subdomain is not related to an event, we can show the normal pages instead. This is the behaviour we want for `www.my-company.com` for example._
@@ -242,10 +243,10 @@ const { data } = await useFetch(`/api/event/${eventID}`);
 
 The last step before the everything works, we need to add the subdomain records to the DNS. In this case we want to allow for any subdomain so we need to add a wildcard DNS record. I'm deploying to Cloudflare Pages so the actual location of the application is at `<project-name>.<org-name>.pages.dev`. First I need to point to that domain with the following DNS records:
 
-| Type | Name | Value | Notes |
-| --- | --- | --- | --- |
-| CNAME | `@` | `<project-name>.<org-name>.pages.dev` | root domain |
-| CNAME | `*` | `<project-name>.<org-name>.pages.dev` | wildcard subdomain |
+| Type  | Name | Value                                 | Notes              |
+| ----- | ---- | ------------------------------------- | ------------------ |
+| CNAME | `@`  | `<project-name>.<org-name>.pages.dev` | root domain        |
+| CNAME | `*`  | `<project-name>.<org-name>.pages.dev` | wildcard subdomain |
 
 And then also add the domains directly to the Cloudflare Pages project as a "Pages Domain". The root domain works just as expected. All pages are accessible except the ones in `pages/tenant`. The wildcard subdomain however...
 
@@ -254,6 +255,7 @@ And then also add the domains directly to the Cloudflare Pages project as a "Pag
 Here is where all the problems start. Wildcard domains are not supported in Cloudflare Pages. If you add a the `*.my-company.com` domain it will read it as the actual character `*` instead of a wildcard. Oh no... As an alternative, I could add a DNS record and Pages Domain for each event, but there is a limit to that. Free plans only allow for 100 Pages Domains per project. Enough for the single client I am working with, but not for the future.
 
 A few things to make clear about my Cloudflare setup:
+
 - I'm using NuxtHub to deploy this project to Cloudflare Pages
 - My domain is registered at the Cloudflare Registrar and is using the Free plan
 - I have a Cloudflare Workers Paid subscription
@@ -283,22 +285,22 @@ The `routes` array is where the magic happens. You can define URL patterns which
 
 We need to update the DNS records to point to the workers project instead of the Pages project. First, remove any records related to the Pages project. Then, add your domain as a Workers Domain in the specific worker's settings. Lastly, in the DNS settings you can add a wildcard subdomain to the domain and it will look something like this:
 
-| Type | Name | Value | Notes |
-| --- | --- | --- | --- |
-| `Worker` | `my-company.com` | `my-project` | root domain (worker domain) |
-| `CNAME` | `*` | `my-company.com` | wildcard subdomain |
+| Type     | Name             | Value            | Notes                       |
+| -------- | ---------------- | ---------------- | --------------------------- |
+| `Worker` | `my-company.com` | `my-project`     | root domain (worker domain) |
+| `CNAME`  | `*`              | `my-company.com` | wildcard subdomain          |
 
 ### Turning off specific subdomains
 
-In my case, I want some subdomains to point to a server outside of Cloudflare. This is a websocket server that I run on a VPS. Say I want to use `ws.my-company.com` to point to the external server, adding the specific subdomain to the DNS does not work immediately. 
+In my case, I want some subdomains to point to a server outside of Cloudflare. This is a websocket server that I run on a VPS. Say I want to use `ws.my-company.com` to point to the external server, adding the specific subdomain to the DNS does not work immediately.
 
-| Type | Name | Value | Notes |
-| --- | --- | --- | --- |
-| `Worker` | `my-company.com` | `my-project` | root domain (worker domain) |
-| `CNAME` | `*` | `my-company.com` | wildcard subdomain |
-| `A` | `ws` | `192.168.1.1` | VPS |
+| Type     | Name             | Value            | Notes                       |
+| -------- | ---------------- | ---------------- | --------------------------- |
+| `Worker` | `my-company.com` | `my-project`     | root domain (worker domain) |
+| `CNAME`  | `*`              | `my-company.com` | wildcard subdomain          |
+| `A`      | `ws`             | `192.168.1.1`    | VPS                         |
 
-This will not work. The subdomain will trigger the worker and not route to the VPS. To make it work, you need to go to the `my-company.com` '__website__ settings' in the Cloudflare dashboard — not the worker settings. Then, under the 'Workers Routes' tab, you need to add a new route `ws.my-company.com/*` and set the Worker to _None_. Now, the subdomain will point to the external server instead of the worker.
+This will not work. The subdomain will trigger the worker and not route to the VPS. To make it work, you need to go to the `my-company.com` '**website** settings' in the Cloudflare dashboard — not the worker settings. Then, under the 'Workers Routes' tab, you need to add a new route `ws.my-company.com/*` and set the Worker to _None_. Now, the subdomain will point to the external server instead of the worker.
 
 ## Conclusion
 

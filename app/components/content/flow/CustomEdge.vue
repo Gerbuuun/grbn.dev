@@ -45,18 +45,19 @@ const isAnimating = ref(false);
 
 let animation: Animation | null = null;
 
-const path = computed(() => getBezierPath({
-  sourceX,
-  sourceY,
-  targetX,
-  targetY,
-  sourcePosition,
-  targetPosition,
-}));
+const path = computed(() =>
+  getBezierPath({
+    sourceX,
+    sourceY,
+    targetX,
+    targetY,
+    sourcePosition,
+    targetPosition,
+  }),
+);
 
 watch(isCancelled, (isCancelled) => {
-  if (isCancelled)
-    animation?.cancel();
+  if (isCancelled) animation?.cancel();
 });
 
 watch(isAnimating, (isAnimating) => {
@@ -64,14 +65,12 @@ watch(isAnimating, (isAnimating) => {
 });
 
 watch(isFinished, (isFinished) => {
-  if (isFinished)
-    runAnimation();
+  if (isFinished) runAnimation();
 });
 
 function runAnimation() {
   const pathEl = edgeRef.value?.pathEl;
-  if (!pathEl)
-    return;
+  if (!pathEl) return;
 
   isAnimating.value = true;
   const keyframes = [{ offsetDistance: '0%' }, { offsetDistance: '100%' }];
@@ -79,12 +78,13 @@ function runAnimation() {
   // use path length as a possible measure for the animation duration
   const pathLengthDuration = pathEl.getTotalLength() * 10;
 
-  animation = labelRef.value?.animate(keyframes, {
-    duration: Math.min(Math.max(pathLengthDuration, 1500), 3000), // clamp duration between 1.5s and 3s
-    direction: 'normal',
-    easing: 'ease-in-out',
-    iterations: 1,
-  }) ?? null;
+  animation =
+    labelRef.value?.animate(keyframes, {
+      duration: Math.min(Math.max(pathLengthDuration, 1500), 3000), // clamp duration between 1.5s and 3s
+      direction: 'normal',
+      easing: 'ease-in-out',
+      iterations: 1,
+    }) ?? null;
 
   if (animation) {
     animation.onfinish = handleAnimationEnd;
@@ -98,12 +98,7 @@ function handleAnimationEnd() {
 </script>
 
 <template>
-  <BaseEdge
-    :id="id"
-    ref="edgeRef"
-    :path="path[0]"
-    :style="{ stroke: 'var(--ui-primary)' }"
-  />
+  <BaseEdge :id="id" ref="edgeRef" :path="path[0]" :style="{ stroke: 'var(--ui-primary)' }" />
 
   <EdgeLabelRenderer>
     <div

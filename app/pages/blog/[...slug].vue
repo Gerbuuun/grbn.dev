@@ -6,9 +6,13 @@ if (!page.value) {
   throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true });
 }
 
-const { data: surround } = await useAsyncData(`${route.path}-surround`, () => {
-  return queryCollectionItemSurroundings('blog', route.path, { fields: ['title', 'description', 'navigation'] });
-}, { default: () => [] });
+const { data: surround } = await useAsyncData(
+  `${route.path}-surround`,
+  () => {
+    return queryCollectionItemSurroundings('blog', route.path, { fields: ['title', 'description', 'navigation'] });
+  },
+  { default: () => [] },
+);
 
 const breadcrumbs = computed(() => [
   { label: 'Home', to: '/' },
@@ -16,7 +20,7 @@ const breadcrumbs = computed(() => [
   { label: page.value?.title, to: route.path },
 ]);
 
-const date = computed(() => page.value ? new Date(page.value.date) : new Date());
+const date = computed(() => (page.value ? new Date(page.value.date) : new Date()));
 
 useSeoMeta({
   title: page.value?.title,
@@ -30,11 +34,18 @@ useSeoMeta({
 
 <template>
   <UPage v-if="page">
-    <UPageHeader :title="page.title" :description="page.description" :links="page.links" :ui="{ headline: 'flex flex-col gap-y-8 items-start' }">
+    <UPageHeader
+      :title="page.title"
+      :description="page.description"
+      :links="page.links"
+      :ui="{ headline: 'flex flex-col gap-y-8 items-start' }"
+    >
       <template #headline>
         <UBreadcrumb :items="breadcrumbs" :ui="{ root: 'w-full' }" />
         <span class="space-x-2 text-sm text-gray-500 dark:text-gray-400">
-          <time :datetime="date.toISOString()" class="text-[var(--ui-primary)]">{{ date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) }}</time>
+          <time :datetime="date.toISOString()" class="text-[var(--ui-primary)]">{{
+            date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+          }}</time>
           <span>·</span>
           <span class="italic">{{ page.readingTime }} minute read</span>
         </span>

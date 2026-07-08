@@ -19,7 +19,7 @@ const props = defineProps<{
   height: number;
 }>();
 
-const nodes = computed(() => props.nodes.map(node => ({ ...defaultNodeOptions, ...node })));
+const nodes = computed(() => props.nodes.map((node) => ({ ...defaultNodeOptions, ...node })));
 </script>
 
 <template>
