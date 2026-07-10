@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 interface GithubUser {
-  id: string;
+  id: number;
   username: string;
   name: string;
-  twitter: string;
+  twitter: string | null;
   avatar: string;
 }
 
@@ -11,7 +11,12 @@ const props = defineProps<{
   username: string;
 }>();
 
-const { data } = useLazyFetch<{ user: GithubUser }>(`/api/gh/users/${props.username}`);
+const { data } = await useFetch<{ user: GithubUser }>(
+  () => `https://ungh.cc/users/${encodeURIComponent(props.username)}`,
+  {
+    key: `ungh-user-${props.username}`,
+  },
+);
 const user = computed(() => data?.value?.user);
 </script>
 
@@ -37,7 +42,13 @@ const user = computed(() => data?.value?.user);
               :to="`https://github.com/${user.username}`"
               icon="i-simple-icons-github"
             />
-            <UButton variant="ghost" color="neutral" :to="`https://x.com/${user.twitter}`" icon="i-simple-icons-x" />
+            <UButton
+              v-if="user.twitter"
+              variant="ghost"
+              color="neutral"
+              :to="`https://x.com/${user.twitter}`"
+              icon="i-simple-icons-x"
+            />
           </div>
         </div>
       </template>

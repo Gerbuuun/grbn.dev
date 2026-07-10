@@ -1,7 +1,21 @@
 <script setup lang="ts">
+const description = '';
+
 const { data: posts } = await useAsyncData('navigation', () =>
   queryCollection('blog').select('title', 'description', 'date', 'tags', 'path').limit(3).all(),
 );
+
+useSeoMeta({
+  title: 'Gerben Mulder',
+  description,
+  ogTitle: 'Gerben Mulder',
+  ogDescription: description,
+});
+
+defineOgImage('Site.takumi', {
+  title: 'Gerben Mulder',
+  description,
+});
 </script>
 
 <template>

@@ -11,6 +11,7 @@ export default defineConfig({
     },
   },
   fmt: {
+    ignorePatterns: ['content/**'],
     singleQuote: true,
     printWidth: 120,
     sortTailwindcss: {},

@@ -1,9 +1,24 @@
 <script setup lang="ts">
+const siteDescription =
+  'Personal website of Gerben Mulder, a software engineer building with Nuxt, Cloudflare, and TypeScript.';
+
 const items = [
   { label: 'Home', to: '/' },
   { label: 'Projects', to: '/projects' },
   { label: 'Blog', to: '/blog' },
 ];
+
+useSeoMeta({
+  title: 'Gerben Mulder',
+  description: siteDescription,
+  ogTitle: 'Gerben Mulder',
+  ogDescription: siteDescription,
+});
+
+defineOgImage('Site.takumi', {
+  title: 'Gerben Mulder',
+  description: siteDescription,
+});
 </script>
 
 <template>

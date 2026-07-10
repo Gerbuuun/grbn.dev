@@ -21,15 +21,38 @@ const breadcrumbs = computed(() => [
 ]);
 
 const date = computed(() => (page.value ? new Date(page.value.date) : new Date()));
+const pageMetadata = page.value as typeof page.value & {
+  head?: Parameters<typeof useHead>[0];
+  ogImage?: Parameters<typeof defineOgImage>[0];
+};
+const contentSeo = page.value.seo as Parameters<typeof useSeoMeta>[0] & {
+  title?: string;
+  description?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+};
+
+useHead({
+  ...pageMetadata.head,
+});
 
 useSeoMeta({
-  title: page.value?.title,
-  description: page.value?.description,
-  ogTitle: page.value?.title,
-  ogDescription: page.value?.description,
-  articleTag: page.value?.tags,
-  articlePublishedTime: new Date(page.value?.date).toISOString(),
+  ...contentSeo,
+  ogTitle: contentSeo.ogTitle ?? contentSeo.title ?? page.value.title,
+  ogDescription: contentSeo.ogDescription ?? contentSeo.description ?? page.value.description,
+  ogType: 'article',
+  articleTag: page.value.tags,
+  articlePublishedTime: date.value.toISOString(),
 });
+
+if (pageMetadata.ogImage) {
+  defineOgImage(pageMetadata.ogImage);
+} else {
+  defineOgImage('Site.takumi', {
+    title: page.value.title,
+    description: page.value.description,
+  });
+}
 </script>
 
 <template>

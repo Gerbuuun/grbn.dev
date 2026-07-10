@@ -1,4 +1,10 @@
 import { defineCollection, defineContentConfig, z } from '@nuxt/content';
+import {
+  defineOgImageSchema,
+  defineRobotsSchema,
+  defineSchemaOrgSchema,
+  defineSitemapSchema,
+} from '@nuxtjs/seo/content';
 
 const linkSchema = z.object({
   label: z.string(),
@@ -18,6 +24,10 @@ export default defineContentConfig({
         links: z.array(linkSchema),
         references: z.array(linkSchema),
         other: z.array(linkSchema),
+        ogImage: defineOgImageSchema(),
+        robots: defineRobotsSchema(),
+        schemaOrg: defineSchemaOrgSchema(),
+        sitemap: defineSitemapSchema(),
       }),
     }),
   },
