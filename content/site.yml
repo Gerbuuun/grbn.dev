@@ -1,0 +1,26 @@
+name: Gerben Mulder
+description: Personal website of Gerben Mulder, a software engineer building with Nuxt, Cloudflare, and TypeScript.
+location: Delft, Netherlands
+email: gerbuuun@pm.me
+socialLinks:
+  - label: "LinkedIn"
+    icon: i-simple-icons-linkedin
+    to: https://www.linkedin.com/in/gerben-mulder-2216a61bb
+  - label: "GitHub"
+    icon: i-simple-icons-github
+    to: https://github.com/gerbuuun
+  - label: "Bluesky"
+    icon: i-simple-icons-bluesky
+    to: https://bsky.app/profile/grbn.dev
+  - label: "Twitter / X"
+    icon: i-simple-icons-x
+    to: https://x.com/gerbuuun
+navigation:
+  - label: Home
+    to: /
+  - label: Timeline
+    to: /#timeline
+  - label: Projects
+    to: /projects
+  - label: Blog
+    to: /blog

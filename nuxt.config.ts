@@ -1,5 +1,3 @@
-import { definePerson } from 'nuxt-schema-org/schema';
-
 export default defineNuxtConfig({
   modules: ['@nuxtjs/seo', '@nuxt/ui', '@nuxt/content'],
   devtools: { enabled: true },
@@ -15,7 +13,6 @@ export default defineNuxtConfig({
       htmlAttrs: {
         lang: 'en',
       },
-      titleTemplate: '%s · Gerben Mulder',
       templateParams: {
         separator: '·',
       },
@@ -37,19 +34,11 @@ export default defineNuxtConfig({
     credits: false,
     zeroRuntime: true,
   },
-  schemaOrg: {
-    identity: definePerson({
-      type: 'Person',
-      name: 'Gerben Mulder',
-      url: 'https://grbn.dev',
-      sameAs: ['https://github.com/gerbuuun', 'https://bsky.app/profile/grbn.dev', 'https://x.com/gerbuuun'],
-    }),
-  },
   seo: {
+    // Preserve Vue-rendered Shiki styles so prerendered HTML hydrates unchanged.
+    minify: false,
     redirectToCanonicalSiteUrl: true,
     meta: {
-      ogSiteName: 'Gerben Mulder',
-      ogType: 'website',
       twitterCard: 'summary_large_image',
       twitterCreator: '@gerbuuun',
     },
@@ -67,9 +56,12 @@ export default defineNuxtConfig({
     },
     prerender: {
       crawlLinks: true,
-      routes: ['/', '/blog', '/robots.txt', '/sitemap.xml'],
+      routes: ['/', '/projects', '/blog', '/robots.txt', '/sitemap.xml'],
     },
     routeRules: {
+      '/projects/**': {
+        prerender: true,
+      },
       '/blog/**': {
         prerender: true,
       },

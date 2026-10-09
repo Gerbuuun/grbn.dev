@@ -3,6 +3,7 @@ title: Multi-tenancy with Nuxt and Cloudflare
 description: My journey implementing multi-tenancy in my Nuxt project deployed to cloudflare workers.
 date: 2025-01-04
 readingTime: 12
+timeline: true
 tags:
   - Cloudflare
   # - DNS

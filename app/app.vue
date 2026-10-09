@@ -1,24 +1,26 @@
 <script setup lang="ts">
-const siteDescription =
-  'Personal website of Gerben Mulder, a software engineer building with Nuxt, Cloudflare, and TypeScript.';
-
-const items = [
-  { label: 'Home', to: '/' },
-  { label: 'Projects', to: '/projects' },
-  { label: 'Blog', to: '/blog' },
-];
-
+const { data: site } = await useSiteContent();
+const route = useRoute();
+const items = computed(() =>
+  (site.value?.navigation || []).map((item) => ({
+    ...item,
+    active: item.to.includes('#') ? route.fullPath === item.to : route.path === item.to && !route.hash,
+  })),
+);
+const socialLinks = computed(() => site.value?.socialLinks || []);
+const githubLink = computed(() => socialLinks.value.find((link) => link.label === 'GitHub'));
 useSeoMeta({
-  title: 'Gerben Mulder',
-  description: siteDescription,
-  ogTitle: 'Gerben Mulder',
-  ogDescription: siteDescription,
+  title: () => site.value?.name,
+  description: () => site.value?.description,
+  ogTitle: () => site.value?.name,
+  ogDescription: () => site.value?.description,
 });
-
-defineOgImage('Site.takumi', {
-  title: 'Gerben Mulder',
-  description: siteDescription,
+useHead({
+  titleTemplate: (title) =>
+    title && title !== site.value?.name ? `${title} · ${site.value?.name}` : site.value?.name || '',
 });
+useSchemaOrg([definePerson({ name: site.value?.name, sameAs: socialLinks.value.map((link) => link.to) })]);
+defineOgImage('Site.takumi', { title: site.value?.name, description: site.value?.description });
 </script>
 
 <template>
@@ -26,18 +28,23 @@ defineOgImage('Site.takumi', {
     <NuxtRouteAnnouncer />
     <NuxtLoadingIndicator />
 
-    <UHeader title="Gerben Mulder">
+    <UHeader :title="site?.name">
       <UNavigationMenu :items />
+
+      <template #body>
+        <UNavigationMenu :items orientation="vertical" />
+      </template>
 
       <template #right>
         <UColorModeButton />
         <UButton
-          icon="i-simple-icons-github"
+          v-if="githubLink"
+          :icon="githubLink.icon"
+          :to="githubLink.to"
           color="neutral"
           variant="ghost"
-          to="https://github.com/gerbuuun"
           target="_blank"
-          aria-label="GitHub"
+          :aria-label="githubLink.label"
         />
       </template>
     </UHeader>
@@ -55,30 +62,23 @@ defineOgImage('Site.takumi', {
 
       <template #right>
         <UButton
-          icon="i-simple-icons-github"
+          v-for="link in socialLinks"
+          :key="link.label"
+          :icon="link.icon"
           color="neutral"
           variant="ghost"
-          to="https://github.com/gerbuuun"
+          :to="link.to"
           target="_blank"
-          aria-label="GitHub"
+          :aria-label="link.label"
         />
         <UButton
-          icon="i-simple-icons-bluesky"
+          icon="i-lucide-mail"
           color="neutral"
           variant="ghost"
-          to="https://bsky.app/profile/grbn.dev"
-          target="_blank"
-          aria-label="BlueSky"
+          v-if="site?.email"
+          :to="`mailto:${site.email}`"
+          aria-label="Email"
         />
-        <UButton
-          icon="i-simple-icons-x"
-          color="neutral"
-          variant="ghost"
-          to="https://x.com/gerbuuun"
-          target="_blank"
-          aria-label="X / Twitter"
-        />
-        <UButton icon="i-lucide-mail" color="neutral" variant="ghost" to="mailto:gerbuuun@pm.me" aria-label="Email" />
       </template>
     </UFooter>
   </UApp>
@@ -89,6 +89,10 @@ defineOgImage('Site.takumi', {
 @import '@nuxt/ui';
 
 @source '../content';
+
+:root:not(.dark) {
+  --ui-primary: var(--ui-color-primary-600);
+}
 
 @theme {
   --font-sans: 'Kanit', sans-serif;

@@ -5,7 +5,15 @@ allowBuilds:
   msgpackr-extract: true
   vue-demi: true
   workerd: true
-minimumReleaseAgeExclude:
-  - '@types/node@26.1.1'
-  - '@vue/language-core@3.3.7'
-  - vue-tsc@3.3.7
+
+# Patched transitive dependencies while upstream packages still pin older releases.
+overrides:
+  hono@<4.13.13: ^4.13.13
+  '@hono/node-server@<1.19.15': ^1.19.15
+  lodash@<4.18.1: ^4.18.1
+  esbuild@<0.28.1: ^0.28.2
+  valibot@<1.4.2: ^1.5.0
+  simple-git@<4.0.2: ^4.0.2
+
+patchedDependencies:
+  '@nuxt/devtools@3.4.2': patches/@nuxt__devtools@3.4.2.patch
