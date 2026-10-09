@@ -1,4 +1,5 @@
 <script setup lang="ts">
+definePageMeta({ key: (route) => route.path });
 const route = useRoute();
 
 const { data: page } = await useAsyncData(route.path, () => queryCollection('blog').path(route.path).first());
@@ -17,7 +18,7 @@ const { data: surround } = await useAsyncData(
 const breadcrumbs = computed(() => [
   { label: 'Home', to: '/' },
   { label: 'Blog', to: '/blog' },
-  { label: page.value?.title, to: route.path },
+  { label: page.value?.title, to: page.value?.path },
 ]);
 
 const date = computed(() => (page.value ? new Date(page.value.date) : new Date()));
@@ -69,8 +70,8 @@ if (pageMetadata.ogImage) {
           <time :datetime="date.toISOString()" class="text-[var(--ui-primary)]">{{
             date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
           }}</time>
-          <span>·</span>
-          <span class="italic">{{ page.readingTime }} minute read</span>
+          <span v-if="page.readingTime">·</span>
+          <span v-if="page.readingTime" class="italic">{{ page.readingTime }} minute read</span>
         </span>
       </template>
     </UPageHeader>
@@ -84,14 +85,23 @@ if (pageMetadata.ogImage) {
     </UPageBody>
 
     <template v-if="page.body?.toc?.links?.length" #right>
-      <UContentToc :links="page.body.toc.links">
-        <template #bottom>
-          <USeparator v-if="page.references?.length || page.other?.length" />
-          <UPageLinks v-if="page.references?.length" title="References" :links="page.references" />
-          <USeparator v-if="page.references?.length && page.other?.length" />
-          <UPageLinks v-if="page.other?.length" title="Other" :links="page.other" />
+      <!-- Reka's generated collapsible IDs differ after async content prerendering. -->
+      <ClientOnly>
+        <UContentToc :links="page.body.toc.links">
+          <template #bottom>
+            <USeparator v-if="page.references?.length || page.other?.length" />
+            <UPageLinks v-if="page.references?.length" title="References" :links="page.references" />
+            <USeparator v-if="page.references?.length && page.other?.length" />
+            <UPageLinks v-if="page.other?.length" title="Other" :links="page.other" />
+          </template>
+        </UContentToc>
+        <template #fallback>
+          <UPageLinks
+            title="On this page"
+            :links="page.body.toc.links.map((link) => ({ label: link.text, to: `#${link.id}` }))"
+          />
         </template>
-      </UContentToc>
+      </ClientOnly>
     </template>
   </UPage>
 </template>

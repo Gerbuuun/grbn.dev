@@ -1,0 +1,10 @@
+category: "Education"
+title: "Biomedical Devices"
+organization: "TU Delft"
+start: "2025"
+current: true
+description: "Studying at TU Delft, following the Biomedical Devices track."
+skills: ["Biomedical devices"]
+link:
+  label: LinkedIn profile
+  to: https://www.linkedin.com/in/gerben-mulder-2216a61bb

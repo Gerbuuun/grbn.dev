@@ -88,7 +88,7 @@ export default Alchemy.Stack(
       env: {
         DB: content,
       },
-      domain: isProd ? [domain, `www.${domain}`] : [`${stage}.${domain}`],
+      domain: isProd ? { name: domain, aliases: [`www.${domain}`] } : `${stage}.${domain}`,
       tags: ['grbn.dev', 'website'],
     });
 
